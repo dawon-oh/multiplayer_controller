@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+	<UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resource\ex_icon.png" />
+    <None Remove="Resource\left_n.png" />
+    <None Remove="Resource\left_p.png" />
+    <None Remove="Resource\play_n.png" />
+    <None Remove="Resource\play_p.png" />
+    <None Remove="Resource\right_n.png" />
+    <None Remove="Resource\right_p.png" />
+    <None Remove="Resource\stop_n.png" />
+    <None Remove="Resource\stop_p.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\ex_icon.png" />
+    <Resource Include="Resource\left_n.png" />
+    <Resource Include="Resource\left_p.png" />
+    <Resource Include="Resource\play_n.png" />
+    <Resource Include="Resource\play_p.png" />
+    <Resource Include="Resource\right_n.png" />
+    <Resource Include="Resource\right_p.png" />
+    <Resource Include="Resource\stop_n.png" />
+    <Resource Include="Resource\stop_p.png" />
+  </ItemGroup>
+
+</Project>

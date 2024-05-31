@@ -1,0 +1,119 @@
+﻿<Window x:Class="PIDController.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PIDController"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="800" FontFamily="Yu Gothic UI Medium">
+
+    <Grid AutomationProperties.IsRowHeader="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="0.55*"/>
+            <RowDefinition Height="0.45*"/>
+            <RowDefinition Height="140"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 타이틀 -->
+        <Grid Grid.Row="0" Grid.Column="0" ClipToBounds="False">
+            <TextBlock Name="ProgramTitle" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Text="Multi Movies Controller" FontSize="24" FontFamily="Yu Gothic UI Semibold" />
+        </Grid>
+
+        <ToggleButton x:Name="MinModeBtn" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Width="80" Margin="10" Content="Minimize" Click="Btn_top_Click"/>
+
+
+        <!--프로세스 리스트 뷰-->
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="10, 0, 10, 0" Text="{Binding sel_process_count, StringFormat=Selected Process - {0}}" 
+                   VerticalAlignment="Bottom"/>
+        <Button Name="BtnSearch" Grid.Row="1" Grid.Column="0" Margin="10, 15, 100, 0" Content="Search Player" Width="80"  HorizontalAlignment="Right" Click="BtnSearch_Click"/>
+        <Button Name="BtnReset" Grid.Row="1" Grid.Column="0" Margin="10, 15, 10, 0" Content="Reset" Width="80" HorizontalAlignment="Right" Click="BtnReset_Click"/>
+        <ListView x:Name="ProcessListView" Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ItemsSource="{Binding ProcessItems}" HorizontalContentAlignment="Center" BorderBrush="#FF434343">
+            <!--<ListView.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                </Style>
+            </ListView.Resources>-->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <!--<EventSetter Event="MouseDoubleClick" Handler="LogListView_MouseDoubleClick"/>-->
+                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="BorderBrush" Value="DarkGray"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="SnapsToDevicePixels" Value="true"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#FF7C9FC5" Opacity="0.25"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#FF7C9FC5" Opacity="0.9"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="PID" DisplayMemberBinding="{Binding PId, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+                        <GridViewColumn Header="Process/App Name" DisplayMemberBinding="{Binding PName, UpdateSourceTrigger=PropertyChanged}" Width="195" />
+                        <GridViewColumn Header="Check"  Width="50"> 
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ToggleButton Content="Select" Click="SelectProcess_Clicked"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        
+        <!--선택된 프로세스 리스트-->
+        <Rectangle Grid.Row="2" Grid.Column="1" Margin="10" Fill="#FFE0E2E8"/>
+        <ScrollViewer Grid.Row="2" Grid.Column="1" Margin="10" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Name="SelProcessListView" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="5"/>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </ScrollViewer>
+        
+
+        <!--<Rectangle Grid.Row="3" Grid.Column="1" Margin="10" Fill="#FFE0E2E8"/>-->
+        <StackPanel Grid.Row="4" Grid.Column="1" Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="PrevMovieBtn" Margin="10" Width="100" Background="#FFA9ACB5" Click="PrevButtonClick" BorderBrush="{x:Null}">
+                <Image Name ="PrevMovieImage" Margin="25" Source="Resource/left_n.png"/>
+            </Button>
+            <ToggleButton x:Name="PlayPauseBtn" Margin="10" Width="100" Background="#FFA9ACB5" Click="SendButtonClick" BorderBrush="{x:Null}" IsChecked="False">
+                <Image Name ="PlayMovieImage" Margin="25" Source="Resource/play_n.png"/>
+            </ToggleButton>
+            <Button x:Name="NextMovieBtn" Margin="10" Width="100" Background="#FFA9ACB5" Click="NextButtonClick" BorderBrush="{x:Null}">
+                <Image Name ="NextMovieImage" Margin="25" Source="Resource/right_n.png"/>
+            </Button>
+        </StackPanel>
+        <!--<StackPanel Grid.Row="3" Grid.Column="1" Margin="10">
+
+        </StackPanel>-->
+
+    </Grid>
+</Window>
